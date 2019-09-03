@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style type="text/css">
+      #svg-wrapper {
+        text-align: center;
+      }
+    </style>
+    <script src="path.js"></script>
+  </head>
+  <body>
+    <div id="svg-wrapper"></div>
+    <script>
+      console.log(path1);
+      const scale = 3;
+      // 根据坐标获取svg path的d属性
+      function getPathD(points) {
+        let d = '';
+        points.forEach(function(value, index) {
+          const x = value.x * scale;
+          const y = value.y * scale;
+          if (points.length <= 1) {
+            return '';
+          }
+
+          if (index === 0) {
+            d += `M${x} ${y}`;
+          } else {
+            d += `L${x} ${y}`;
+          }
+        });
+        return d + 'Z';
+      }
+      // 定义命名空间
+      const nameSpace = 'http://www.w3.org/2000/svg';
+      // 在html里定义一个svg
+      const svg = document.createElementNS(nameSpace, 'svg');
+      svg.setAttribute('width', 299 * scale);
+      svg.setAttribute('height', 299 * scale);
+      // 在id名为svg-wrapper的div里添加此svg
+      const svgWrap = document.querySelector('#svg-wrapper');
+      svgWrap.appendChild(svg);
+      pathArr.forEach(path => {
+        // 在svg里添加一个path
+        const svgPath = document.createElementNS(nameSpace, 'path');
+        svgPath.setAttribute('d', getPathD(path)); // 给path新增一个属性，即路径d
+        svgPath.setAttribute('stroke', '#f00'); // 给path一个颜色
+        svg.appendChild(svgPath); // 添加至svg节点里
+      });
+    </script>
+  </body>
+</html>
